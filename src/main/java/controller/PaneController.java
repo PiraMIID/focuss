@@ -8,11 +8,16 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.util.Duration;
 
 public class PaneController {
+
     @FXML
-    private Button resetButton;
+    private Label targetTimeLagel;
+
+    @FXML
+    private TextField timeInputField;
 
     @FXML
     private Label timerLabel;
@@ -20,7 +25,7 @@ public class PaneController {
     @FXML
     private Button startStopButton;
 
-    private int mins = 0, secs = 0, hours = 0;
+    private int mins = 0, secs = 1, hours = 0;
     private boolean timeDone;
     private boolean startStopButtonState = false;
 
@@ -32,6 +37,8 @@ public class PaneController {
         initButton();
         timeline.setAutoReverse(false);
         timeline.setCycleCount(timeline.INDEFINITE);
+
+
 
 
     }
@@ -57,22 +64,53 @@ public class PaneController {
     }));
 
 
+
     private void initButton() {
         startStopButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (startStopButtonState == true) {
+                System.out.println(startStopButtonState);
+
+
+                if (startStopButtonState) {
                     startStopButton.setText("Start");
                     timeline.stop();
                     startStopButtonState = false;
                 }
-                 else if (startStopButtonState == false) {
+                 else  {
+                    checkInput();
+                    targetTimeLagel.setText(inputToLable(checkInput()));
                     startStopButton.setText("Stop");
                     timeline.play();
                     startStopButtonState = true;
                 }
             }
         });
+
+
+
+    }
+
+    private int checkInput() {
+        String text = timeInputField.getText();
+
+        try {
+            int targetTime = Integer.parseInt(text);
+            return targetTime;
+
+        } catch (NumberFormatException e) {
+            timeInputField.clear();
+            return 0;
+        }
+
+
+    }
+
+    private String inputToLable(int inputInt) {
+        int m = inputInt%60;
+        int h = (inputInt - m) /60;
+        String text = h + ":" + m + ":0";
+        return text;
     }
 
     private void initTime() {
@@ -83,9 +121,15 @@ public class PaneController {
 
     public void reset(ActionEvent actionEvent) {
         timeline.stop();
-
-
+        secs = 1;
+        mins = 0;
+        hours = 0;
+        timerLabel.setText("0:0:0");
+        startStopButton.setText("start");
+        startStopButtonState = false;
     }
+
+
 
 
 }

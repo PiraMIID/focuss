@@ -1,14 +1,14 @@
-package service;
+package time;
 
 import java.util.Objects;
 
-public class Timer {
+public class TimeBlock {
     private int hours = 0;
     private int minutes = 0;
     private int seconds = 0;
     private long microseconds = 0;
 
-    public Timer() {
+    public TimeBlock() {
     }
 
     public int getHours() {
