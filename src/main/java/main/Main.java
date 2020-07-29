@@ -1,25 +1,12 @@
 package main;
 
-import controller.PaneController;
-
-import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
-import java.util.regex.Pattern;
 
 public class Main extends Application {
     @Override
@@ -32,49 +19,23 @@ public class Main extends Application {
         stage.show();
 
 
-//        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-//            int mins = 0;
-//            int secs =  1 ;
-//            int hours = 0;
-//            @Override
-//            public void handle(ActionEvent actionEvent) {
-//                if (secs == 60.0) {
-//                    mins++;
-//                    secs = 0;
-//                }
-//                if (mins == 60) {
-//                    hours++;
-//                    mins = 0;
-//                }
-//                System.out.println(hours + ":" + mins + ":" + secs);
-//                String name = hours + ":" + mins + ":" + secs;
-//                timerLabel.setText(name);
-//
-//            }}));
-
-
-
-
-//        timeline.play();
-
-
-//        Timelines musi być zawarte tutaj w tej klasie.
-
-
-
-
-
 
     }
+
+//    private Parent replaceSceneContent(String fxml) throws Exception {
+//            Parent page = (Parent) FXMLLoader.load(App.class.getResource(fxml), null, new JavaFXBuilderFactory());
+//            Scene scene = stage.getScene();
+//            if (scene == null) {
+//                scene = new Scene(page, 700, 450);
+//                scene.getStylesheets().add(App.class.getResource("demo.css").toExternalForm());
+//                stage.setScene(scene);
+//            } else {
+//                stage.getScene().setRoot(page);
+//            }
+//            stage.sizeToScene();
+//            return page;
+//        }
+
 }
 
 
-//if (secs == 60) {
-//        mins++;
-//        secs=0;
-//        }
-//        if (mins == 60) {
-//        hours++;
-//        mins=0;
-//        }
-//        timerLabel.setText(hours +":"+mins+":"+secs);

@@ -12,6 +12,6 @@ public class User {
     private TimeBlock timeBlock;
     private Date date;
 
-//    name of user is key to csv file with history.
+//    name of user is key to csv file.
 
 }

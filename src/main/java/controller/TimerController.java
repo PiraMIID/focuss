@@ -3,15 +3,24 @@ package controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
-public class PaneController {
+import java.io.IOException;
+import java.util.Optional;
+
+public class TimerController {
+
 
     @FXML
     private Label targetTimeLagel;
@@ -28,19 +37,44 @@ public class PaneController {
     private int mins = 0, secs = 1, hours = 0;
     private boolean timeDone;
     private boolean startStopButtonState = false;
+    private Integer maxLeght = 4;
 
 
     public void initialize() {
         System.out.println("esa");
         startStopButton.setText("Start");
+        configureInput();
         initTime();
         initButton();
         timeline.setAutoReverse(false);
         timeline.setCycleCount(timeline.INDEFINITE);
 
 
+    }
+
+    private void configureInput() {
+        timeInputField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
 
 
+                if (timeInputField.getLength() >= maxLeght) {
+                    System.out.println(newValue);
+                    System.out.println(oldValue);
+                    timeInputField.setText(oldValue);
+                } else if (!newValue.matches("\\d+")) {
+                    System.out.println(timeInputField.getLength() >= maxLeght);
+                    System.out.println(!newValue.matches("\\d+"));
+                    timeInputField.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+                if (timeInputField.getLength() != 0) {
+                    targetTimeLagel.setText(inputToLable(checkInput()));
+                } else {
+                    targetTimeLagel.setText("0:0:0");
+                }
+
+            }
+        });
     }
 
     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
@@ -64,7 +98,6 @@ public class PaneController {
     }));
 
 
-
     private void initButton() {
         startStopButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -76,8 +109,7 @@ public class PaneController {
                     startStopButton.setText("Start");
                     timeline.stop();
                     startStopButtonState = false;
-                }
-                 else  {
+                } else {
                     checkInput();
                     targetTimeLagel.setText(inputToLable(checkInput()));
                     startStopButton.setText("Stop");
@@ -86,7 +118,6 @@ public class PaneController {
                 }
             }
         });
-
 
 
     }
@@ -107,8 +138,8 @@ public class PaneController {
     }
 
     private String inputToLable(int inputInt) {
-        int m = inputInt%60;
-        int h = (inputInt - m) /60;
+        int m = inputInt % 60;
+        int h = (inputInt - m) / 60;
         String text = h + ":" + m + ":0";
         return text;
     }
@@ -120,17 +151,36 @@ public class PaneController {
 
 
     public void reset(ActionEvent actionEvent) {
+
+        startStopButton.setText("Start");
         timeline.stop();
-        secs = 1;
-        mins = 0;
-        hours = 0;
-        timerLabel.setText("0:0:0");
-        startStopButton.setText("start");
         startStopButtonState = false;
+
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setContentText("Czy napewno chceż zrestartować ?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+
+        if (result.get() == ButtonType.OK) {
+            secs = 1;
+            mins = 0;
+            hours = 0;
+            timerLabel.setText("0:0:0");
+
+
+        }
+
+
+
+
+
     }
 
 
+    public void doneBlock(ActionEvent actionEvent) {
 
 
+    }
 }
 

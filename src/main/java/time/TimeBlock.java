@@ -6,7 +6,7 @@ public class TimeBlock {
     private int hours = 0;
     private int minutes = 0;
     private int seconds = 0;
-    private long microseconds = 0;
+
 
     public TimeBlock() {
     }
@@ -35,13 +35,6 @@ public class TimeBlock {
         this.seconds = seconds;
     }
 
-    public long getMicroseconds() {
-        return microseconds;
-    }
-
-    public void setMicroseconds(long microseconds) {
-        this.microseconds = microseconds;
-    }
 
     @Override
     public String toString() {
@@ -49,7 +42,9 @@ public class TimeBlock {
                 "hours=" + hours +
                 ", minutes=" + minutes +
                 ", seconds=" + seconds +
-                ", microseconds=" + microseconds +
                 '}';
     }
+
+
+
 }
