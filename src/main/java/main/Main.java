@@ -12,7 +12,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Pane mainBox = FXMLLoader.load(getClass().getResource("/fxml/focus.fxml"));
+        Pane mainBox = FXMLLoader.load(getClass().getResource("/fxml/mainPane.fxml"));
         Scene scene = new Scene(mainBox);
         stage.setScene(scene);
         stage.setTitle("Focus");

@@ -19,20 +19,33 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.util.Optional;
 
-public class TimerController {
+public class TimerController  {
 
 
     @FXML
     private Label targetTimeLagel;
-
     @FXML
     private TextField timeInputField;
-
     @FXML
     private Label timerLabel;
-
     @FXML
     private Button startStopButton;
+
+    public Label getTargetTimeLagel() {
+        return targetTimeLagel;
+    }
+
+    public TextField getTimeInputField() {
+        return timeInputField;
+    }
+
+    public Label getTimerLabel() {
+        return timerLabel;
+    }
+
+    public Button getStartStopButton() {
+        return startStopButton;
+    }
 
     private int mins = 0, secs = 1, hours = 0;
     private boolean timeDone;
@@ -40,19 +53,34 @@ public class TimerController {
     private Integer maxLeght = 4;
 
 
+//    public TimerController() {
+//        System.out.println("esa");
+//        System.out.println(startStopButton);
+//
+//
+//        configureInput();
+//        initTime();
+//        initButton();
+//        timeline.setAutoReverse(false);
+//        timeline.setCycleCount(timeline.INDEFINITE);
+//    }
+
+
     public void initialize() {
         System.out.println("esa");
+        System.out.println(startStopButtonState);
         startStopButton.setText("Start");
+        timeInputField.setText("elo");
+        System.out.println(timeInputField.getText());
         configureInput();
         initTime();
         initButton();
         timeline.setAutoReverse(false);
         timeline.setCycleCount(timeline.INDEFINITE);
-
-
     }
 
-    private void configureInput() {
+    public void configureInput() {
+        timeInputField.setText("");
         timeInputField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
