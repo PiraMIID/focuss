@@ -9,14 +9,16 @@ import javafx.scene.layout.VBox;
 
 public class MainPaneController {
     @FXML
-    private VBox inPutPane;
+    private SettingsPlotPaneController inPutPane;
     @FXML
-    private TimerController timerController;
+    private VBox timerPane;
     @FXML
     private HBox settingsPlotPane;
 
     public void initialize() {
-        System.out.println(timerController);
+        System.out.println("siena");
+        System.out.println(timerPane);
+
 
     }
 
