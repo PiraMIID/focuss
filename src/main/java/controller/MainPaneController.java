@@ -1,23 +1,23 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 public class MainPaneController {
     @FXML
-    private SettingsPlotPaneController inPutPane;
+    private SettingsPlotPaneController settingsPlotPaneController;
     @FXML
-    private VBox timerPane;
+    private TimerPaneController timerPaneController;
     @FXML
-    private HBox settingsPlotPane;
+    private TypeBlockPaneController typeBlockPaneController;
 
     public void initialize() {
         System.out.println("siena");
-        System.out.println(timerPane);
+        System.out.println(timerPaneController);
+        System.out.println(settingsPlotPaneController);
+        System.out.println(typeBlockPaneController);
+
+
+
 
 
     }

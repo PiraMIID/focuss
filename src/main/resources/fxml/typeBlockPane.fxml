@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox fx:controller="controller.typeBlockContllroller" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:controller="controller.TypeBlockPaneController" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ChoiceBox fx:id="userChoiceBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
       <ChoiceBox fx:id="typeStudyChoiceBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />

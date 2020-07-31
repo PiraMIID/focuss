@@ -19,7 +19,7 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.util.Optional;
 
-public class TimerController  {
+public class TimerPaneController {
 
 
     @FXML
@@ -52,8 +52,10 @@ public class TimerController  {
     private boolean startStopButtonState = false;
     private Integer maxLeght = 4;
 
+    public TimerPaneController() {
+    }
 
-//    public TimerController() {
+    //    public TimerController() {
 //        System.out.println("esa");
 //        System.out.println(startStopButton);
 //
