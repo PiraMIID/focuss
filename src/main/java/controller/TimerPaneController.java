@@ -223,6 +223,9 @@ public class TimerPaneController {
 
     }
 
+    public void doneBlock(ActionEvent actionEvent) {
+    }
+
 
 //    public void doneBlock(ActionEvent actionEvent) {
 //

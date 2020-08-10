@@ -10,6 +10,8 @@ public class MainPaneController {
     @FXML
     private TypeBlockPaneController typeBlockPaneController;
 
+
+
     public TypeBlockPaneController getTypeBlockPaneController() {
         return typeBlockPaneController;
     }
@@ -19,6 +21,7 @@ public class MainPaneController {
         System.out.println(timerPaneController);
         System.out.println(settingsPlotPaneController);
         System.out.println(typeBlockPaneController.getUserChoiceBox());
+
         initSave();
 
 
