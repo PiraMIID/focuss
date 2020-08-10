@@ -15,24 +15,7 @@ public class MainPaneController {
     }
 
     public void initialize() {
-        System.out.println("siena");
-        System.out.println(timerPaneController);
-        System.out.println(settingsPlotPaneController);
-        System.out.println(typeBlockPaneController.getUserChoiceBox());
-        initSave();
-
-
-
-
-
-    }
-
-    private void initSave() {
-
-    }
-
-    private void createTimer() {
-
+        timerPaneController.setTypeBlockPane(typeBlockPaneController);
 
 
     }

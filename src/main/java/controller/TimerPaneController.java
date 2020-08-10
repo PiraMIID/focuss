@@ -1,6 +1,7 @@
 package controller;
 
 
+import com.opencsv.CSVWriter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
@@ -8,12 +9,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -21,7 +18,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Optional;
 
 public class TimerPaneController {
@@ -35,7 +31,16 @@ public class TimerPaneController {
     private Label timerLabel;
     @FXML
     private Button startStopButton;
+    @FXML
+    private Button doneButton;
+    @FXML
+    private Button resetButton;
 
+    private TypeBlockPaneController typeBlockPane;
+
+    public void setTypeBlockPane(TypeBlockPaneController typeBlockPane) {
+        this.typeBlockPane = typeBlockPane;
+    }
 
     public Label getTargetTimeLagel() {
         return targetTimeLagel;
@@ -53,26 +58,14 @@ public class TimerPaneController {
         return startStopButton;
     }
 
-    private int mins = 0, secs = 1, hours = 0;
-    private boolean timeDone;
+    private int mins = 0, secs = 55, hours = 0;
+
     private boolean startStopButtonState = false;
     private Integer maxLeght = 4;
+    boolean finishBlock = false;
 
     public TimerPaneController() {
     }
-
-    //    public TimerController() {
-//        System.out.println("esa");
-//        System.out.println(startStopButton);
-//
-//
-//        configureInput();
-//        initTime();
-//        initButton();
-//        timeline.setAutoReverse(false);
-//        timeline.setCycleCount(timeline.INDEFINITE);
-//    }
-
 
     public void initialize() {
         System.out.println("esa");
@@ -81,7 +74,6 @@ public class TimerPaneController {
         timeInputField.setText("elo");
         System.out.println(timeInputField.getText());
         configureInput();
-        initTime();
         initButton();
         timeline.setAutoReverse(false);
         timeline.setCycleCount(timeline.INDEFINITE);
@@ -124,12 +116,18 @@ public class TimerPaneController {
                 hours++;
                 mins = 0;
             }
-            if (startStopButtonState == true) {
-                System.out.println(hours + ":" + mins + ":" + secs);
-                String name = hours + ":" + mins + ":" + secs++;
-                timerLabel.setText(name);
 
+            System.out.println(hours + ":" + mins + ":" + secs);
+            String name = hours + ":" + mins + ":" + secs++;
+            timerLabel.setText(name);
+
+
+            if ((mins + hours * 60) == checkInput()){
+                doneButton.fire();
+                finishBlock = true;
+                resetButton.fire();
             }
+
         }
     }));
 
@@ -149,17 +147,18 @@ public class TimerPaneController {
                     startStopButton.setStyle("-fx-background-color: seagreen");
 
                 } else {
-                    checkInput();
-                    targetTimeLagel.setText(inputToLable(checkInput()));
-                    startStopButton.setText("Stop");
-                    timeline.play();
-                    startStopButtonState = true;
-                    startStopButton.setStyle("-fx-background-color: indianred");
+
+                    if (!(timeInputField.getText().length() == 0 || typeBlockPane.getTypeStudyChoiceBox().getValue()==null || typeBlockPane.getUserChoiceBox() == null)) {
+                        checkInput();
+                        targetTimeLagel.setText(inputToLable(checkInput()));
+                        startStopButton.setText("Stop");
+                        timeline.play();
+                        startStopButtonState = true;
+                        startStopButton.setStyle("-fx-background-color: indianred");
+                    }
                 }
             }
         });
-
-
 
 
     }
@@ -186,60 +185,71 @@ public class TimerPaneController {
         return text;
     }
 
-    private void initTime() {
-        timeDone = true;
 
-    }
 
 
     public void reset(ActionEvent actionEvent) {
-
         startStopButton.setText("Start");
         timeline.stop();
         startStopButtonState = false;
         startStopButton.setStyle("-fx-background-color: seagreen");
 
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setContentText("Czy napewno chceż zrestartować ?");
-        alert.setHeaderText(null);
 
-        Optional<ButtonType> result = alert.showAndWait();
+        if (!finishBlock) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setContentText("Czy napewno chceż zrestartować ?");
+            alert.setHeaderText(null);
+            Optional<ButtonType> result = alert.showAndWait();
 
-
-        if (result.get() == ButtonType.OK) {
+            if (result.get() == ButtonType.OK) {
+                secs = 1;
+                mins = 0;
+                hours = 0;
+                timerLabel.setText("0:0:0");
+                timeInputField.clear();
+            }
+        } else {
+            doneButton.fire();
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setContentText("Skończył sie zaplanowany czas nauki. Zapisano");
+            alert.setHeaderText(null);
+            finishBlock = false;
             secs = 1;
             mins = 0;
             hours = 0;
             timerLabel.setText("0:0:0");
-
-
-
-
+            alert.show();
         }
+
+
+
+    }
+
+    public void doneBlock(ActionEvent actionEvent) {
+        String user = typeBlockPane.getUserChoiceBox().getValue();
+        String typeStudy = typeBlockPane.getTypeStudyChoiceBox().getValue();
+        timeline.stop();
+        File file = new File("src\\main\\resources\\csv\\history\\" + user + ".csv");
+        try {
+            FileWriter fileWriter = new FileWriter(file, true);
+            CSVWriter writer = new CSVWriter(fileWriter);
+            String[] data = {typeStudy , LocalDate.now().toString(), hours + ":" + mins};
+            writer.writeNext(data);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        startStopButton.setText("Start");
+        startStopButtonState = false;
+        startStopButton.setStyle("-fx-background-color: seagreen");
+
+        timeInputField.clear();
 
 
 
 
 
     }
-
-
-//    public void doneBlock(ActionEvent actionEvent) {
-//
-//        String user = typeBlockPaneController.getUserChoiceBox().getValue();
-//        String typeStudy =  typeBlockPaneController.getTypeStudyChoiceBox().getValue();
-//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-//        timeline.stop();
-//        File file = new File("src\\main\\java\\user" + user + ".csv");
-//        try {
-//            FileWriter fileWriter = new FileWriter(file);
-//            fileWriter.write(typeStudy + ";" + LocalDate.now() + ";" + hours + ":" + mins);
-//            fileWriter.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//    }
 }
 
