@@ -1,6 +1,5 @@
 package controller;
 
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -11,27 +10,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
 
 public class TypeBlockPaneController {
 
-    private static TypeBlockPaneController INSTANCE;
-
     public TypeBlockPaneController() {
-        System.out.println(INSTANCE);
-
-    }
-
-    public static TypeBlockPaneController getInstance() {
-        if (INSTANCE != null) {
-            return INSTANCE;
-        }
-        return new TypeBlockPaneController();
     }
 
     @FXML
@@ -46,8 +35,6 @@ public class TypeBlockPaneController {
     Set<String> listOfTypeStudy;
     Set<String> userList = new HashSet<>();
 
-
-
     public ChoiceBox<String> getUserChoiceBox() {
         return userChoiceBox;
     }
@@ -57,30 +44,27 @@ public class TypeBlockPaneController {
     }
 
     public void initialize() {
-        INSTANCE = new TypeBlockPaneController();
-        getInstance();
         initButton();
         initCheckBoxes();
-
-
     }
 
     private void initCheckBoxes() {
         File f = new File("src\\main\\resources\\csv\\users");
         String[] usersCsv = f.list();
         for (String userName : usersCsv) {
-            userList.add(userName.substring(0, userName.length()-4));
+            userList.add(userName.substring(0, userName.length() - 4));
             userChoiceBox.getItems().setAll(userList);
         }
         userChoiceBox.setOnAction(actionEvent -> {
             listOfTypeStudy = new HashSet<>();
-            if (userChoiceBox.getValue()!=null) {
-                try (Scanner csvText = new Scanner(new File("src\\main\\resources\\csv\\users\\" + userChoiceBox.getValue() + ".csv"))){
+            if (userChoiceBox.getValue() != null) {
+                try (Scanner csvText = new Scanner(new File("src\\main\\resources\\csv\\users\\" + userChoiceBox.getValue() + ".csv"))) {
 
                     while (csvText.hasNextLine()) {
                         String line = csvText.nextLine();
                         String[] split = line.split(";");
                         listOfTypeStudy.add(split[0]);
+
                     }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -127,10 +111,8 @@ public class TypeBlockPaneController {
     }
 
 
-
     private void initButton() {
         addUserButton.setOnAction(actionEvent -> {
-            System.out.println("kicha");
 
             VBox addUserLayout = new VBox();
 
@@ -151,7 +133,7 @@ public class TypeBlockPaneController {
             //add new User
             confirmButton.setOnAction(actionEvent1 -> {
                 System.out.println(nameNewUserInput.getText());
-                String filename = "src\\main\\resources\\csv\\users\\"+nameNewUserInput.getText()+".csv";
+                String filename = "src\\main\\resources\\csv\\users\\" + nameNewUserInput.getText() + ".csv";
                 File file = new File(filename);
                 System.out.println(file.getAbsolutePath());
                 FileWriter fileWriter = null;

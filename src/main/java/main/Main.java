@@ -2,8 +2,6 @@ package main;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -17,9 +15,6 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.setTitle("Focus");
         stage.show();
-
-
-
     }
 
 //    private Parent replaceSceneContent(String fxml) throws Exception {
